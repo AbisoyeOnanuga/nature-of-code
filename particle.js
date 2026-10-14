@@ -13,13 +13,10 @@ class Particle {
       this.velocity = createVector(random(-1, 1), random(-1, 0));
       this.lifespan = 255.0;
       this.angle = 0;
-      this.angularVelocity = random(-0.05, 0.05);
-      //angle
-      this.angle = 0;
-      this.angleV = 0;
+      this.angleV = random(-0.05, 0.05);
       this.angleA = 0;
     }
-  
+
     run() {
       let gravity = createVector(0, 0.05);
       this.applyForce(gravity);
@@ -35,7 +32,8 @@ class Particle {
     update() {
       this.velocity.add(this.acceleration);
       this.position.add(this.velocity);
-      this.angle += this.angularVelocity;
+      this.angleV += this.angleA;
+      this.angle += this.angleV;
       this.lifespan -= 2;
       this.acceleration.mult(0);
     }
@@ -43,29 +41,19 @@ class Particle {
     // Method to display
     show() {
       push();
-      translate(0, this.position.y);
+      translate(this.position.x, this.position.y);
       rotate(this.angle);
       stroke(255, this.lifespan);
-      rotate(this.angle);
-
       strokeWeight(1);
       fill(50, 75, 255, this.lifespan);
+      rectMode(CENTER);
       rect(0, 0, 100);
       pop();
-      pop();
     }
-  
+
     // Is the particle still useful?
     isDead() {
       return this.lifespan < 0.0;
-    }
-
-    run(){
-      this.update();
-      this.show();
-
-      let gravity = createVector(0, 0.05);
-      this.applyForce(gravity);
     }
   }
   
